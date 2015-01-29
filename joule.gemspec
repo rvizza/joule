@@ -9,7 +9,6 @@ Gem::Specification.new do |s|
   s.homepage = "http://github.com/rvizza/joule"
 
   s.version = "1.0.4"
-  s.date = "2011-4-28"
 
   s.authors = ["Andrew Olson"]
   s.email = "anolson@gmail.com"
