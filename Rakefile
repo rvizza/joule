@@ -18,10 +18,10 @@ spec = Gem::Specification.new do |s|
   s.name = "joule"
   s.summary = "A Ruby library for parsing bicycle powermeter data."
   s.description = "Joule parses and does some basic analyzing of powermeter data. Supported formats include SRM(.srm), Saris PowerTap(.csv), iBike(.csv), and Garmin(.tcx)"
-  s.homepage = "http://github.com/anolson/joule"
+  s.homepage = "http://github.com/rvizza/joule"
   
   s.version = "1.0.4"
-  s.date = "2011-4-28"
+  s.date = "2015-1-29"
   
   s.authors = ["Andrew Olson"]
   s.email = "anolson@gmail.com"
