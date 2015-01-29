@@ -71,7 +71,7 @@ module Joule
         trackpoint.children.each do |data|
           parse_times(data, data_point) if(data.name == "Time")
           data_point.altitude = data.content.to_f if data.name == "AltitudeMeters"
-          data_point.distance = (data.content.to_f * 1000) if data.name == "DistanceMeters"
+          data_point.distance = data.content.to_f if data.name == "DistanceMeters"
           data_point.cadence = data.content.to_i if data.name == "Cadence"
           parse_heartrate(data, data_point) if data.name == "HeartRateBpm"
           parse_extensions(data, data_point) if data.name == "Extensions"
