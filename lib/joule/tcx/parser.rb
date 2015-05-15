@@ -50,7 +50,7 @@ module Joule
 
         lap_node.children.each do |child|
           marker.duration_seconds = child.content.to_i if child.name == "TotalTimeSeconds"
-          marker.distance = child.content.to_i if child.name == "DistanceMeters"
+          marker.distance = child.content.to_f if child.name == "DistanceMeters"
           parse_track(child) if(child.name == "Track")
         end
         marker.end = @workout.data_points.last.time
