@@ -10,19 +10,19 @@ module Joule
         parse_activity("Biking")
         create_workout_marker()
       end
-      
+
       def parse_properties
         @workout.properties = Joule::TCX::Properties.new
         @workout.properties.record_interval = 1
       end
 
-      private  
+      private
       def create_workout_marker
         if(@workout.markers.size > 1)
           @workout.markers << Marker.new(:start => 0, :end => @workout.data_points.size - 1)
         end
       end
-      
+
 
       def parse_activity(sport)
         document = Nokogiri::XML::Document.parse(@data)
@@ -41,7 +41,7 @@ module Joule
       def parse_lap(lap_node)
 
         marker = Marker.new
-                
+
         if @workout.data_points.size > 0
           marker.start = @workout.data_points.last.time + 1
         else
@@ -49,7 +49,8 @@ module Joule
         end
 
         lap_node.children.each do |child|
-          marker.duration_seconds = child.content.to_i if child.name == "TotalTimeSeconds" 
+          marker.duration_seconds = child.content.to_i if child.name == "TotalTimeSeconds"
+          marker.distance = child.content.to_i if child.name == "DistanceMeters"
           parse_track(child) if(child.name == "Track")
         end
         marker.end = @workout.data_points.last.time
@@ -75,7 +76,7 @@ module Joule
           data_point.cadence = data.content.to_i if data.name == "Cadence"
           parse_heartrate(data, data_point) if data.name == "HeartRateBpm"
           parse_extensions(data, data_point) if data.name == "Extensions"
-          parse_position(data, data_point) if data.name == "Position" 
+          parse_position(data, data_point) if data.name == "Position"
         end
         @workout.data_points << data_point
         @trackpoint_count = @trackpoint_count + 1
@@ -105,8 +106,8 @@ module Joule
           extension.children.each do |tpx|
             (data_point.speed = tpx.content.to_f; @has_native_speed = true;) if(tpx.name == "Speed")
             (data_point.power = tpx.content.to_f) if(tpx.name == "Watts")
-          end 
-        end  
+          end
+        end
       end
 
       def parse_position(position, data_point)
@@ -117,16 +118,16 @@ module Joule
       end
 
       def calculate_speed
-        @workout.data_points.each_with_index { |v, i| 
+        @workout.data_points.each_with_index { |v, i|
           if(i == 0)
-            delta = v.distance 
+            delta = v.distance
           else
             delta = v.distance - @workout.data_points[i-1].distance
           end
-          v.speed = delta / @workout.properties.record_interval      
+          v.speed = delta / @workout.properties.record_interval
         }
       end
     end
-    
+
   end
 end
