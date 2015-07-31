@@ -118,13 +118,15 @@ module Joule
       end
 
       def calculate_speed
+        time_delta = 1
         @workout.data_points.each_with_index { |v, i|
           if(i == 0)
             delta = v.distance
           else
             delta = v.distance - @workout.data_points[i-1].distance
+            time_delta = v.time_of_day - @workout.data_points[i-1].time_of_day
           end
-          v.speed = delta / @workout.properties.record_interval
+          v.speed = delta / time_delta
         }
       end
     end
