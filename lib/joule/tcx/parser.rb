@@ -84,7 +84,7 @@ module Joule
       end
 
       def parse_times(data, data_point)
-        time_of_day =  Time.parse(data.content).to_i
+        data_point.time_of_day =  Time.parse(data.content).to_i
         # data_point.time_of_day = (time_of_day.hour * 3600) + (time_of_day.min * 60) + time_of_day.sec
         data_point.time = @total_record_count * @workout.properties.record_interval
 
@@ -125,7 +125,7 @@ module Joule
             delta = v.distance - @workout.data_points[i-1].distance
             time_delta = v.time_of_day - @workout.data_points[i-1].time_of_day
             v.speed = delta / time_delta
-            # ensure that the current speed is out of line based on the previous speed
+            # ensure that the current speed is not out of line based on the previous speed
             prev_speed = @workout.data_points[i-1].speed
             if v.speed > prev_speed * 1.5
               v.speed = prev_speed * 1.1
