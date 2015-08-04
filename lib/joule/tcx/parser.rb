@@ -84,8 +84,8 @@ module Joule
       end
 
       def parse_times(data, data_point)
-        time_of_day =  Time.parse(data.content)
-        data_point.time_of_day = (time_of_day.hour * 3600) + (time_of_day.min * 60) + time_of_day.sec
+        time_of_day =  Time.parse(data.content).to_i
+        # data_point.time_of_day = (time_of_day.hour * 3600) + (time_of_day.min * 60) + time_of_day.sec
         data_point.time = @total_record_count * @workout.properties.record_interval
 
         if(@trackpoint_count == 0)
@@ -131,6 +131,7 @@ module Joule
               v.speed = prev_speed * 1.1
             elsif v.speed < prev_speed * 0.5
               v.speed = prev_speed * 0.9
+              v.speed = 0 if v.speed < 0.1
             end
           end
         }
