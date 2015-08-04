@@ -122,17 +122,22 @@ module Joule
           if(i == 0)
             v.speed = v.distance
           else
+            prev_speed = @workout.data_points[i-1].speed
             delta = v.distance - @workout.data_points[i-1].distance
             time_delta = v.time_of_day - @workout.data_points[i-1].time_of_day
-            v.speed = delta / time_delta
+            if time_delta > 0
+              v.speed = delta / time_delta
+            else
+              v.speed = prev_speed
+            end
             # ensure that the current speed is not out of line based on the previous speed
-            prev_speed = @workout.data_points[i-1].speed
             if v.speed > prev_speed + 5 # represents an increase of 5 mps in one second, which is not possible on a bike
               v.speed = prev_speed * 1.1
             elsif v.speed < prev_speed - 5 # represents a decrease of 5 mps in one second, which is not possible on a bike
               v.speed = prev_speed * 0.9
             end
-            v.speed = 0 if v.speed < 0.1 # prevent infinite reduction of speed very close to 0 mps
+            # prevent infinite reduction of speed very close to 0 mps and NaN
+            v.speed = 0.0 if v.speed < 0.1 # or (v.speed.is_a?(Float) and  v.speed.nan?)
           end
         }
       end
