@@ -131,8 +131,8 @@ module Joule
               v.speed = prev_speed * 1.1
             elsif v.speed < prev_speed - 5 # represents a decrease of 5 mps in one second, which is not possible on a bike
               v.speed = prev_speed * 0.9
-              v.speed = 0 if v.speed < 0.1 # prevent infinite reduction of speed very close to 0 mps
             end
+            v.speed = 0 if v.speed < 0.1 # prevent infinite reduction of speed very close to 0 mps
           end
         }
       end
