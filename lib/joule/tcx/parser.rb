@@ -127,11 +127,11 @@ module Joule
             v.speed = delta / time_delta
             # ensure that the current speed is not out of line based on the previous speed
             prev_speed = @workout.data_points[i-1].speed
-            if v.speed > prev_speed * 1.5
+            if v.speed > prev_speed + 5 # represents an increase of 5 mps in one second, which is not possible on a bike
               v.speed = prev_speed * 1.1
-            elsif v.speed < prev_speed * 0.5
+            elsif v.speed < prev_speed - 5 # represents a decrease of 5 mps in one second, which is not possible on a bike
               v.speed = prev_speed * 0.9
-              v.speed = 0 if v.speed < 0.1
+              v.speed = 0 if v.speed < 0.1 # prevent infinite reduction of speed very close to 0 mps
             end
           end
         }
