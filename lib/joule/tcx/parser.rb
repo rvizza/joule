@@ -8,6 +8,7 @@ module Joule
       def parse_workout()
         @total_record_count = 0
         parse_activity("Biking")
+        parse_activity("VirtualRide") if @workout.blank? or @workout.data_points.empty?
         create_workout_marker()
       end
 
