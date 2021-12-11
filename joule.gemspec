@@ -18,7 +18,6 @@ Gem::Specification.new do |s|
   s.files = Dir["lib/**/*"] + ["README.rdoc", "Rakefile"]
   s.extra_rdoc_files = ["README.rdoc"]
 
-  s.has_rdoc = true
   s.rdoc_options = ["--line-numbers", "--inline-source", "--title", "Joule", "--main", "README.rdoc"]
 
   s.rubygems_version = "1.3.4"
